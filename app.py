@@ -16,8 +16,8 @@ st.image(banner_image, use_container_width=True)
 st.markdown("<br>", unsafe_allow_html=True)
 
 # Load models and encoders
-emotion_model = load_model("mlp_emotion_model.pkl")
-gender_model = load_model("mlp_gender_model.pkl")
+emotion_model = joblib.load("mlp_emotion_model.pkl")
+gender_model = joblib.load("mlp_gender_model.pkl")
 le_emotion = joblib.load("label_encoder_emotion.pkl")
 le_gender = joblib.load("label_encoder_gender.pkl")
 
