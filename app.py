@@ -55,7 +55,19 @@ if uploaded_file is not None:
         with st.spinner('Predicting emotion and gender...'):
             try:
                 features = extract_features(temp_file_path)
-                features = features.flatten().reshape(1, -1)
+                features = extract_features(temp_file_path)
+                mfcc_flat = features.flatten()  # shape (6960,)
+
+                # Add dummy metadata features (e.g., intensity=0, statement=0, repetition=0)
+                dummy_metadata = np.array([0, 0, 0])
+
+                # Combine MFCCs with metadata
+                combined_features = np.concatenate((mfcc_flat, dummy_metadata))
+
+                # Reshape for model input
+                features = combined_features.reshape(1, -1)
+
+                # features = features.flatten().reshape(1, -1)
                 
                 emotion_pred = emotion_model.predict(features)
                 gender_pred = gender_model.predict(features)
