@@ -53,7 +53,7 @@ if uploaded_file is not None:
     if st.button("Predict"):
         with st.spinner('Predicting emotion and gender...'):
             try:
-                features = extract_features("temp.wav")
+                features = extract_features(temp_file_path)
                 features = np.expand_dims(features, axis=0)
                 
                 emotion_pred = emotion_model.predict(features)
