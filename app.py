@@ -59,7 +59,7 @@ if uploaded_file is not None:
                 mfcc_flat = features.flatten()  # shape (6960,)
 
                 # Add dummy metadata features (e.g., intensity=0, statement=0, repetition=0)
-                dummy_metadata = np.array([1, 1, 1])
+                dummy_metadata = np.array([np.random.randint(0, 2) for _ in range(3)])
 
                 # Combine MFCCs with metadata
                 combined_features = np.concatenate((mfcc_flat, dummy_metadata))
