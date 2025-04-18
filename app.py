@@ -31,7 +31,6 @@ def extract_features(file_path, max_pad_len=174):
         mfccs = np.pad(mfccs, pad_width=((0, 0), (0, pad_width)), mode='constant')
     else:
         mfccs = mfccs[:, :max_pad_len]
-    return mfccs
 
 # Streamlit UI
 #st.title("🎙️ Speech Emotion & Gender Recognition")
@@ -56,9 +55,21 @@ if uploaded_file is not None:
             try:
                 # Extract features from the uploaded audio file
                 features = extract_features(temp_file_path)
+                features = features.flatten()  # Flatten the MFCC array
 
-                # Flatten the extracted features for the model input
-                features = features.flatten().reshape(1, -1)
+                # Add dummy metadata features (e.g., intensity=0, statement=0, repetition=0)
+                dummy_metadata = np.array([np.random.randint(0, 2) for _ in range(3)])
+
+                # Combine MFCCs with metadata
+                combined_features = np.concatenate((features, dummy_metadata))
+
+                # Ensure the feature vector is of size (6963,)
+                if combined_features.shape[0] != 6963:
+                    st.error(f"Expected feature vector of length 6963, but got {combined_features.shape[0]}")
+                    return
+
+                # Reshape for model input
+                features = combined_features.reshape(1, -1)
                 
                 emotion_pred = emotion_model.predict(features)
                 gender_pred = gender_model.predict(features)
