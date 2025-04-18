@@ -67,7 +67,6 @@ if uploaded_file is not None:
                 # Ensure the feature vector is of size (6963,)
                 if combined_features.shape[0] != 6963:
                     st.error(f"Expected feature vector of length 6963, but got {combined_features.shape[0]}")
-                    return
 
                 # Reshape for model input
                 features = combined_features.reshape(1, -1)
