@@ -54,10 +54,11 @@ if uploaded_file is not None:
     if st.button("Predict"):
         with st.spinner('Predicting emotion and gender...'):
             try:
+                # Extract features from the uploaded audio file
                 features = extract_features(temp_file_path)
-                mfcc_flat = features.flatten()  # shape (6960,)
-                combined_features = np.concatenate((mfcc_flat, dummy_metadata))
-                features = mfcc_flat.reshape(1, -1)
+
+                # Flatten the extracted features for the model input
+                features = features.flatten().reshape(1, -1)
                 
                 emotion_pred = emotion_model.predict(features)
                 gender_pred = gender_model.predict(features)
