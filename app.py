@@ -31,6 +31,7 @@ def extract_features(file_path, max_pad_len=174):
         mfccs = np.pad(mfccs, pad_width=((0, 0), (0, pad_width)), mode='constant')
     else:
         mfccs = mfccs[:, :max_pad_len]
+    return mfccs
 
 # Streamlit UI
 #st.title("🎙️ Speech Emotion & Gender Recognition")
